@@ -1,4 +1,4 @@
-%global gem_name ffi
+%define	gem_name ffi
 Summary:	FFI Extensions for Ruby
 Name:		ruby-%{gem_name}
 Version:	1.4.0
