@@ -1,16 +1,16 @@
 %define	pkgname ffi
 Summary:	FFI Extensions for Ruby
 Name:		ruby-%{pkgname}
-Version:	1.4.0
-Release:	2
+Version:	1.8.1
+Release:	1
 License:	LGPL v3
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	5ce1c04c23267cb550250f6d94e03c12
+# Source0-md5:	b3b511cfa03083b0ed078e28f9556517
 URL:		http://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel
 BuildRequires:	rpm-rubyprov
-BuildRequires:	rpmbuild(macros) >= 1.656
+BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-rspec
 BuildRequires:	setup.rb
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -29,6 +29,8 @@ using Ruby-FFI here: <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 cp -p %{_datadir}/setup.rb .
 
 %build
+%__gem_helper spec
+
 %{__ruby} setup.rb config \
 	--rbdir=%{ruby_rubylibdir} \
 	--sodir=%{ruby_archdir}
@@ -45,7 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_vendorarchdir},%{ruby_specdir}}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 install -p ext/ffi_c/ffi_c.so $RPM_BUILD_ROOT%{ruby_vendorarchdir}
-cp -p %{pkgname}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}/%{pkgname}-%{version}.gemspec
+cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
