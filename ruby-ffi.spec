@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	tests		# build without tests
+
 %define	pkgname ffi
 Summary:	FFI Extensions for Ruby
 Name:		ruby-%{pkgname}
@@ -11,8 +15,10 @@ URL:		http://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
-BuildRequires:	ruby-rspec
 BuildRequires:	setup.rb
+%if %{with tests}
+BuildRequires:	ruby-rspec
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
