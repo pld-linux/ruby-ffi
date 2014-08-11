@@ -40,12 +40,18 @@ cp -p %{_datadir}/setup.rb .
 
 %{__ruby} setup.rb config \
 	--rbdir=%{ruby_rubylibdir} \
-	--sodir=%{ruby_archdir}
+	--sodir=%{ruby_archdir} \
+	--makeprog=true
 
 %{__ruby} setup.rb setup
 
+%{__make} -C ext/ffi_c \
+	CC="%{__cc}"
+
 %if %{with tests}
-%{__make} -f libtest/GNUmakefile
+%{__make} -f libtest/GNUmakefile \
+	CCACHE= \
+	CC="%{__cc}"
 ruby -Ilib:ext/ffi_c -S \
 	rspec spec
 %endif
