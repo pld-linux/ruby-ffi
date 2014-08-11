@@ -32,6 +32,9 @@ using Ruby-FFI here: <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %prep
 %setup -q -n %{pkgname}-%{version}
 
+# be sure to use system ffi
+rm -r ext/ffi_c/libffi
+
 # ext build
 cp -p %{_datadir}/setup.rb .
 
