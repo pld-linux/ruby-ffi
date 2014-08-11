@@ -6,7 +6,7 @@
 Summary:	FFI Extensions for Ruby
 Name:		ruby-%{pkgname}
 Version:	1.8.1
-Release:	1
+Release:	2
 License:	LGPL v3
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
@@ -18,6 +18,7 @@ BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	setup.rb
 %if %{with tests}
 BuildRequires:	ruby-rspec
+BuildRequires:	ruby-rspec-mocks
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -45,7 +46,8 @@ cp -p %{_datadir}/setup.rb .
 
 %if %{with tests}
 %{__make} -f libtest/GNUmakefile
-rspec spec
+ruby -Ilib:ext/ffi_c -S \
+	rspec spec
 %endif
 
 %install
