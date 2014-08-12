@@ -36,6 +36,16 @@ using Ruby-FFI here: <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 # be sure to use system ffi
 rm -r ext/ffi_c/libffi
 
+# drop not our targets
+rm -rv lib/ffi/platform/*-{cygwin,darwin,gnu,*bsd,solaris,windows}
+# not in pld th, so drop
+rm -rv lib/ffi/platform/arm-*
+rm -rv lib/ffi/platform/ia64-*
+rm -rv lib/ffi/platform/mips*
+rm -rv lib/ffi/platform/powerpc-*
+rm -rv lib/ffi/platform/s390*
+rm -rv lib/ffi/platform/sparc*
+
 # ext build
 cp -p %{_datadir}/setup.rb .
 
