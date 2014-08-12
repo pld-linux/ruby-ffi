@@ -1,16 +1,17 @@
-#
+# TODO:
+# - rm files in platform dir (and make not noarch?)
 # Conditional build:
 %bcond_without	tests		# build without tests
 
 %define	pkgname ffi
 Summary:	FFI Extensions for Ruby
 Name:		ruby-%{pkgname}
-Version:	1.8.1
-Release:	2
-License:	LGPL v3
+Version:	1.9.3
+Release:	1
+License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	b3b511cfa03083b0ed078e28f9556517
+# Source0-md5:	1b5ab133fb1b861eeb7c7a8dbaa0acf4
 URL:		http://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel
 BuildRequires:	rpm-rubyprov
@@ -71,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.md History.txt LICENSE
+%doc README.md LICENSE
 %{ruby_vendorlibdir}/ffi.rb
 %{ruby_vendorlibdir}/ffi
 %attr(755,root,root) %{ruby_vendorarchdir}/ffi_c.so
