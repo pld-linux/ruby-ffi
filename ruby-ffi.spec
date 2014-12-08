@@ -6,12 +6,12 @@
 Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
-Version:	1.9.3
-Release:	2
+Version:	1.9.6
+Release:	1
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	1b5ab133fb1b861eeb7c7a8dbaa0acf4
+# Source0-md5:	8606c263037322ae957e1959245841be
 Patch0:		%{name}-platform.patch
 URL:		http://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel
