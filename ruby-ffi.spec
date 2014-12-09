@@ -17,6 +17,7 @@ URL:		http://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
+BuildRequires:	ruby-devel
 BuildRequires:	setup.rb
 %if %{with tests}
 BuildRequires:	ruby-rspec
