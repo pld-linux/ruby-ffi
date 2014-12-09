@@ -48,6 +48,9 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 # be sure to use system ffi
 %{__rm} -r ext/ffi_c/libffi
 
+# drop bundled blobs (compiled for osx)
+%{__rm} spec/ffi/fixtures/*.o
+
 # drop not our targets
 %{__rm} -r lib/ffi/platform/*-{aix,cygwin,darwin,gnu,*bsd,solaris,windows}
 # provide only definitions for package architecture
