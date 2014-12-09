@@ -104,7 +104,14 @@ cp -p %{_datadir}/setup.rb .
 %if %{with tests}
 %{__make} -f libtest/GNUmakefile \
 	CCACHE= \
+	OFLAGS='%{rpmcflags} $(JFLAGS)' \
 	CC="%{__cc}"
+
+%{__make} -C spec/ffi/fixtures \
+	CCACHE= \
+	OFLAGS='%{rpmcflags} $(JFLAGS)' \
+	CC="%{__cc}"
+
 ruby -Ilib:ext/ffi_c -S \
 	rspec spec
 %endif
