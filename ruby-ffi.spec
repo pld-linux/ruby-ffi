@@ -13,6 +13,7 @@ Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
 # Source0-md5:	8606c263037322ae957e1959245841be
 Patch0:		%{name}-platform.patch
+Patch1:		failed-tests.patch
 URL:		http://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel
 BuildRequires:	rpm-rubyprov
@@ -44,6 +45,7 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 # be sure to use system ffi
 %{__rm} -r ext/ffi_c/libffi
