@@ -88,6 +88,9 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 # ext build
 cp -p %{_datadir}/setup.rb .
 
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+
 %build
 %__gem_helper spec
 
