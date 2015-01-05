@@ -2,12 +2,13 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
+%define	ffi_req	7:3.2
 %define	pkgname ffi
 Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
 Version:	1.9.6
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
@@ -15,7 +16,7 @@ Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
 Patch0:		%{name}-platform.patch
 Patch1:		failed-tests.patch
 URL:		http://wiki.github.com/ffi/ffi
-BuildRequires:	libffi-devel
+BuildRequires:	libffi-devel >= %{ffi_req}
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-devel
@@ -24,6 +25,7 @@ BuildRequires:	setup.rb
 BuildRequires:	ruby-rspec
 BuildRequires:	ruby-rspec-mocks
 %endif
+Requires:	libffi >= %{ffi_req}
 ExclusiveArch:	%{ix86} %{x8664} arm ia64 mips mipsel ppc s390 s390x sparc sparcv9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
