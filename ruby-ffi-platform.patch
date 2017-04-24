@@ -1,11 +1,11 @@
---- ffi-1.9.3/lib/ffi/platform.rb.orig	2014-08-23 20:46:27.278379695 +0200
-+++ ffi-1.9.3/lib/ffi/platform.rb	2014-08-24 08:34:55.736595784 +0200
-@@ -84,7 +84,7 @@
-     IS_OPENBSD = is_os("openbsd")
+--- ffi-1.9.18/lib/ffi/platform.rb~	2017-04-24 22:55:45.000000000 +0300
++++ ffi-1.9.18/lib/ffi/platform.rb	2017-04-24 22:56:19.872279857 +0300
+@@ -90,7 +90,7 @@
+     IS_SOLARIS = is_os("solaris")
      IS_WINDOWS = is_os("windows")
      IS_BSD = IS_MAC || IS_FREEBSD || IS_NETBSD || IS_OPENBSD
 -    CONF_DIR = File.join(File.dirname(__FILE__), 'platform', NAME)
 +    CONF_DIR = File.join(RbConfig::CONFIG["vendorarchdir"], 'ffi', 'platform', NAME)
+ 
      public
  
-     
