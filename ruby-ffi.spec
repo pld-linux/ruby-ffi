@@ -46,7 +46,7 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch0 -p1
-#%patch1 -p1
+%patch1 -p1
 
 # be sure to use system ffi
 %{__rm} -r ext/ffi_c/libffi
