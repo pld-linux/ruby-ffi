@@ -20,7 +20,6 @@ BuildRequires:	libffi-devel >= %{ffi_req}
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-devel
-BuildRequires:	setup.rb
 %if %{with tests}
 BuildRequires:	ruby-rspec
 BuildRequires:	ruby-rspec-mocks
@@ -95,15 +94,13 @@ find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 %build
 %__gem_helper spec
 
-%{__ruby} setup.rb config \
-	--rbdir=%{ruby_rubylibdir} \
-	--sodir=%{ruby_archdir} \
-	--makeprog=true
-
-%{__ruby} setup.rb setup
-
-%{__make} -C ext/ffi_c \
-	CC="%{__cc}"
+cd ext/ffi_c
+%{__ruby} extconf.rb
+%{__make} \
+	CC="%{__cc}" \
+	ldflags="%{rpmldflags}" \
+	optflags="%{rpmcflags} -fPIC"
+cd -
 
 %if %{with tests}
 %{__make} -f libtest/GNUmakefile \
