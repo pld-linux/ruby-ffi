@@ -8,7 +8,7 @@ Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
 Version:	1.9.18
-Release:	2
+Release:	3
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
@@ -84,9 +84,6 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %ifnarch %{x8664}
 %{__rm} -r lib/ffi/platform/x86_64-*
 %endif
-
-# ext build
-cp -p %{_datadir}/setup.rb .
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
