@@ -25,7 +25,7 @@ BuildRequires:	ruby-rspec
 BuildRequires:	ruby-rspec-mocks
 %endif
 Requires:	libffi >= %{ffi_req}
-ExclusiveArch:	%{ix86} %{x8664} arm ia64 mips mipsel ppc s390 s390x sparc sparcv9
+ExclusiveArch:	%{ix86} %{x8664} aarch64 arm ia64 mips mips64el mipsel powerpc64 ppc s390 s390x sparc sparcv9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,6 +54,9 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 # drop not our targets
 %{__rm} -r lib/ffi/platform/*-{aix,cygwin,darwin,gnu,*bsd,solaris,windows}
 # provide only definitions for package architecture
+%ifnarch aarch64
+%{__rm} -r lib/ffi/platform/aarch64-*
+%endif
 %ifnarch arm
 %{__rm} -r lib/ffi/platform/arm-*
 %endif
@@ -69,8 +72,14 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %ifnarch mipsel
 %{__rm} -r lib/ffi/platform/mipsel-*
 %endif
+%ifnarch mips64el
+%{__rm} -r lib/ffi/platform/mips64el-*
+%endif
 %ifnarch powerpc
 %{__rm} -r lib/ffi/platform/powerpc-*
+%endif
+%ifnarch powerpc64
+%{__rm} -r lib/ffi/platform/powerpc64-*
 %endif
 %ifnarch s390
 %{__rm} -r lib/ffi/platform/s390-*
