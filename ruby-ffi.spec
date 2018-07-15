@@ -7,14 +7,13 @@
 Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
-Version:	1.9.18
-Release:	4
+Version:	1.9.25
+Release:	1
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	37284a51e5464443f7122b388329a2a0
+# Source0-md5:	e8923807b970643d9e356a65038769ac
 Patch0:		%{name}-platform.patch
-Patch1:		failed-tests.patch
 URL:		https://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel >= %{ffi_req}
 BuildRequires:	rpm-rubyprov
@@ -46,7 +45,6 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch0 -p1
-%patch1 -p1
 
 # be sure to use system ffi
 %{__rm} -r ext/ffi_c/libffi
@@ -109,16 +107,6 @@ cd ext/ffi_c
 cd -
 
 %if %{with tests}
-%{__make} -f libtest/GNUmakefile \
-	CCACHE= \
-	OFLAGS='%{rpmcflags} $(JFLAGS)' \
-	CC="%{__cc}"
-
-%{__make} -C spec/ffi/fixtures \
-	CCACHE= \
-	OFLAGS='%{rpmcflags} $(JFLAGS)' \
-	CC="%{__cc}"
-
 ruby -Ilib:ext/ffi_c -S \
 	rspec spec
 %endif
