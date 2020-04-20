@@ -8,7 +8,7 @@ Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
 Version:	1.9.25
-Release:	2
+Release:	3
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
