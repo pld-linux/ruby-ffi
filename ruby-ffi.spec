@@ -1,19 +1,20 @@
 #
 # Conditional build:
-%bcond_without	tests		# build without tests
+%bcond_without	tests	# testing
 
 %define	ffi_req	7:3.2
 %define	pkgname ffi
 Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
-Version:	1.9.25
-Release:	4
+Version:	1.15.5
+Release:	1
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	e8923807b970643d9e356a65038769ac
+# Source0-md5:	026cce18ef8ffc713be29c2ffc9d335b
 Patch0:		%{name}-platform.patch
+Patch1:		ffi-x32.patch
 URL:		https://wiki.github.com/ffi/ffi
 BuildRequires:	libffi-devel >= %{ffi_req}
 BuildRequires:	rpm-rubyprov
@@ -24,7 +25,7 @@ BuildRequires:	ruby-rspec
 BuildRequires:	ruby-rspec-mocks
 %endif
 Requires:	libffi >= %{ffi_req}
-ExclusiveArch:	%{ix86} %{x8664} aarch64 %{arm} ia64 mips mips64el mipsel powerpc64 ppc s390 s390x sparc sparcv9
+ExclusiveArch:	%{ix86} %{x8664} x32 aarch64 %{arm} ia64 mips mipsel mips64 mips64el powerpc64 powerpc64le ppc s390 s390x riscv64 sparc sparcv9 sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -45,12 +46,13 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 # be sure to use system ffi
 %{__rm} -r ext/ffi_c/libffi
 
 # drop not our targets
-%{__rm} -r lib/ffi/platform/*-{aix,cygwin,darwin,gnu,*bsd,solaris,windows}
+%{__rm} -r lib/ffi/platform/*-{aix,cygwin,darwin,freebsd12,*bsd,gnu,haiku,msys,solaris,windows}
 # provide only definitions for package architecture
 %ifnarch aarch64
 %{__rm} -r lib/ffi/platform/aarch64-*
@@ -66,12 +68,19 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %endif
 %ifnarch mips
 %{__rm} -r lib/ffi/platform/mips-*
+%{__rm} -r lib/ffi/platform/mipsisa32r6-*
 %endif
 %ifnarch mipsel
 %{__rm} -r lib/ffi/platform/mipsel-*
+%{__rm} -r lib/ffi/platform/mipsisa32r6el-*
+%endif
+%ifnarch mips64
+%{__rm} -r lib/ffi/platform/mips64-*
+%{__rm} -r lib/ffi/platform/mipsisa64r6-*
 %endif
 %ifnarch mips64el
 %{__rm} -r lib/ffi/platform/mips64el-*
+%{__rm} -r lib/ffi/platform/mipsisa64r6el-*
 %endif
 %ifnarch powerpc
 %{__rm} -r lib/ffi/platform/powerpc-*
@@ -79,21 +88,35 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %ifnarch powerpc64
 %{__rm} -r lib/ffi/platform/powerpc64-*
 %endif
+%ifnarch powerpc64le
+%{__rm} -r lib/ffi/platform/powerpc64le-*
+%endif
 %ifnarch s390
 %{__rm} -r lib/ffi/platform/s390-*
 %endif
 %ifnarch s390x
 %{__rm} -r lib/ffi/platform/s390x-*
 %endif
-%ifnarch sparc
+%ifnarch riscv64
+%{__rm} -r lib/ffi/platform/riscv64-*
+%endif
+%ifnarch sparc sparcv9
 %{__rm} -r lib/ffi/platform/sparc-*
 %endif
+%ifnarch sparc64
+%{__rm} -r lib/ffi/platform/sparc64-*
+%endif
 %ifnarch %{x8664}
-%{__rm} -r lib/ffi/platform/x86_64-*
+%{__rm} -r lib/ffi/platform/x86_64-linux
+%endif
+%ifnarch x32
+%{__rm} -r lib/ffi/platform/x86_64-linux-gnux32
 %endif
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+
+%{__tar} xf %{SOURCE0} metadata.gz
 
 %build
 %__gem_helper spec
