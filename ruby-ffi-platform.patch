@@ -1,11 +1,11 @@
---- ffi-1.15.5/lib/ffi/platform.rb.orig	2023-02-18 19:37:47.086493199 +0100
-+++ ffi-1.15.5/lib/ffi/platform.rb	2023-02-18 19:38:48.586860130 +0100
-@@ -106,7 +106,7 @@ module FFI
+--- ffi-1.17.3/lib/ffi/platform.rb.orig	2025-12-29 00:00:00.000000000 +0100
++++ ffi-1.17.3/lib/ffi/platform.rb	2025-12-29 00:00:00.000000000 +0100
+@@ -108,7 +108,7 @@
      name_version = "12" if IS_FREEBSD && OSVERSION >= 12 # 64-bit inodes
- 
-     NAME = "#{ARCH}-#{OS}#{name_version}"
--    CONF_DIR = File.join(File.dirname(__FILE__), 'platform', NAME)
-+    CONF_DIR = File.join(RbConfig::CONFIG["vendorarchdir"], 'ffi', 'platform', NAME)
- 
+
+     NAME = FFI.make_shareable("#{ARCH}-#{OS}#{name_version}")
+-    CONF_DIR = FFI.make_shareable(File.join(File.dirname(__FILE__), 'platform', NAME))
++    CONF_DIR = FFI.make_shareable(File.join(RbConfig::CONFIG["vendorarchdir"], 'ffi', 'platform', NAME))
+
      public
- 
+

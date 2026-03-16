@@ -1,18 +1,14 @@
-#
-# Conditional build:
-%bcond_without	tests	# testing
-
 %define	ffi_req	7:3.2
 %define	pkgname ffi
 Summary:	FFI Extensions for Ruby
 Summary(pl.UTF-8):	Rozszerzenia FFI dla języka Ruby
 Name:		ruby-%{pkgname}
-Version:	1.15.5
+Version:	1.17.3
 Release:	1
 License:	BSD
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	026cce18ef8ffc713be29c2ffc9d335b
+# Source0-md5:	53b580e3d6f86a517234195d13d60c97
 Patch0:		%{name}-platform.patch
 Patch1:		ffi-x32.patch
 URL:		https://wiki.github.com/ffi/ffi
@@ -20,10 +16,6 @@ BuildRequires:	libffi-devel >= %{ffi_req}
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-devel
-%if %{with tests}
-BuildRequires:	ruby-rspec
-BuildRequires:	ruby-rspec-mocks
-%endif
 Requires:	libffi >= %{ffi_req}
 ExclusiveArch:	%{ix86} %{x8664} x32 aarch64 %{arm} ia64 mips mipsel mips64 mips64el powerpc64 powerpc64le ppc s390 s390x riscv64 sparc sparcv9 sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -53,6 +45,8 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 
 # drop not our targets
 %{__rm} -r lib/ffi/platform/*-{aix,cygwin,darwin,freebsd12,*bsd,gnu,haiku,msys,solaris,windows}
+# drop arches not in ExclusiveArch
+%{__rm} -r lib/ffi/platform/{hppa*,loongarch64,sw_64}-*
 # provide only definitions for package architecture
 %ifnarch aarch64
 %{__rm} -r lib/ffi/platform/aarch64-*
@@ -103,8 +97,8 @@ stronie <http://wiki.github.com/ffi/ffi/why-use-ffi>.
 %ifnarch sparc sparcv9
 %{__rm} -r lib/ffi/platform/sparc-*
 %endif
-%ifnarch sparc64
-%{__rm} -r lib/ffi/platform/sparc64-*
+%ifnarch sparc64 sparcv9
+%{__rm} -r lib/ffi/platform/sparcv9-*
 %endif
 %ifnarch %{x8664}
 %{__rm} -r lib/ffi/platform/x86_64-linux
@@ -128,11 +122,6 @@ cd ext/ffi_c
 	ldflags="%{rpmldflags}" \
 	optflags="%{rpmcflags} -fPIC"
 cd -
-
-%if %{with tests}
-ruby -Ilib:ext/ffi_c -S \
-	rspec spec
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT

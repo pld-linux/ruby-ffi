@@ -1,26 +1,26 @@
---- ffi-1.15.5/ext/ffi_c/MethodHandle.c.orig	2023-02-18 19:46:18.462877574 +0100
-+++ ffi-1.15.5/ext/ffi_c/MethodHandle.c	2023-02-18 20:11:26.531881239 +0100
+--- ffi-1.17.3/ext/ffi_c/MethodHandle.c.orig	2025-12-29 00:00:00.000000000 +0100
++++ ffi-1.17.3/ext/ffi_c/MethodHandle.c	2025-12-29 00:00:00.000000000 +0100
 @@ -77,7 +77,7 @@
  static bool prep_trampoline(void* ctx, void* code, Closure* closure, char* errmsg, size_t errmsgsize);
  static long trampoline_size(void);
- 
--#if defined(__x86_64__) && (defined(__linux__) || defined(__APPLE__))
-+#if defined(__x86_64__) && !defined(__ILP32__) && (defined(__linux__) || defined(__APPLE__))
+
+-#if defined(__x86_64__) && \
++#if defined(__x86_64__) && !defined(__ILP32__) && \
+     (defined(__linux__) || defined(__APPLE__)) && \
+     !USE_FFI_ALLOC
  # define CUSTOM_TRAMPOLINE 1
- #endif
- 
---- ffi-1.15.5/lib/ffi/platform.rb.orig	2023-02-18 19:46:19.052881095 +0100
-+++ ffi-1.15.5/lib/ffi/platform.rb	2023-02-18 20:18:51.244538146 +0100
-@@ -104,6 +104,7 @@ module FFI
- 
+--- ffi-1.17.3/lib/ffi/platform.rb.orig	2025-12-29 00:00:00.000000000 +0100
++++ ffi-1.17.3/lib/ffi/platform.rb	2025-12-29 00:00:00.000000000 +0100
+@@ -107,6 +107,7 @@
+
      # Add the version for known ABI breaks
      name_version = "12" if IS_FREEBSD && OSVERSION >= 12 # 64-bit inodes
 +    name_version = "-gnux32" if RbConfig::CONFIG['host_os'] == "linux-gnux32"
- 
-     NAME = "#{ARCH}-#{OS}#{name_version}"
-     CONF_DIR = File.join(RbConfig::CONFIG["vendorarchdir"], 'ffi', 'platform', NAME)
---- ffi-1.15.5/lib/ffi/platform/x86_64-linux-gnux32/types.conf.orig	1970-01-01 01:00:00.000000000 +0100
-+++ ffi-1.15.5/lib/ffi/platform/x86_64-linux-gnux32/types.conf	2023-02-18 21:04:54.427719598 +0100
+
+     NAME = FFI.make_shareable("#{ARCH}-#{OS}#{name_version}")
+     CONF_DIR = FFI.make_shareable(File.join(RbConfig::CONFIG["vendorarchdir"], 'ffi', 'platform', NAME))
+--- ffi-1.17.3/lib/ffi/platform/x86_64-linux-gnux32/types.conf.orig	1970-01-01 01:00:00.000000000 +0100
++++ ffi-1.17.3/lib/ffi/platform/x86_64-linux-gnux32/types.conf	2023-02-18 21:04:54.427719598 +0100
 @@ -0,0 +1,103 @@
 +rbx.platform.typedef.*__caddr_t = char
 +rbx.platform.typedef.*__qaddr_t = long_long
